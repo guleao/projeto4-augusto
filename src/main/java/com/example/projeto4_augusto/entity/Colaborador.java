@@ -16,10 +16,10 @@ public class Colaborador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cliente;
+    private String nome;
     private String cpf;
     private String email;
     private String cargo;
-    private Endereco endereco;
+    private String endereco;
 
 }

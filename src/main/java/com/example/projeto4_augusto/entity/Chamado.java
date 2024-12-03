@@ -16,8 +16,8 @@ public class Chamado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Cliente cliente;
-    private Colaborador colaborador;
+    private String cliente;
+    private String colaborador;
     private String descritivo;
     private String situacao;
     private String dataAbertura;
