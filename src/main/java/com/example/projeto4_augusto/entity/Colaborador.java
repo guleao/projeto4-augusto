@@ -1,14 +1,12 @@
 package com.example.projeto4_augusto.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.JoinColumn;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,7 +22,30 @@ public class Colaborador {
     private String email;
     private String cargo;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    private Endereco endereco;
+    @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Chamado> chamados = new ArrayList<>();
+
+    @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Endereco> enderecos = new ArrayList<>();
+
+    public void addChamado(Chamado chamado) {
+        chamados.add(chamado);
+        chamado.setColaborador(this);
+    }
+
+    public void removeChamado(Chamado chamado) {
+        chamados.remove(chamado);
+        chamado.setColaborador(null);
+    }
+
+    public void addEndereco(Endereco endereco) {
+        enderecos.add(endereco);
+        endereco.setColaborador(this);
+    }
+
+    public void removeEndereco(Endereco endereco) {
+        enderecos.remove(endereco);
+        endereco.setColaborador(null);
+    }
 }

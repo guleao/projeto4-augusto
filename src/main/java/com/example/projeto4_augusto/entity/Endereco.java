@@ -1,9 +1,8 @@
 package com.example.projeto4_augusto.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,4 +18,24 @@ public class Endereco {
     private String logradouro;
     private String cidade;
     private String estado;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_id")
+    @JsonIgnore
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "colaborador_id")
+    @JsonIgnore
+    private Colaborador colaborador;
+
+    @JsonProperty("clienteId")
+    public Long getClienteId() {
+        return (cliente != null) ? cliente.getId() : null;
+    }
+
+    @JsonProperty("colaboradorId")
+    public Long getColaboradorId() {
+        return (colaborador != null) ? colaborador.getId() : null;
+    }
 }

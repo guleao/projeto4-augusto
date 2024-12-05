@@ -1,11 +1,10 @@
 package com.example.projeto4_augusto.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,11 +15,20 @@ public class Chamado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cliente;
-    private String colaborador;
-    private String descritivo;
-    private String situacao;
-    private String dataAbertura;
-    private String dataFechamento;
+    private String descricao;
+
+    @Enumerated(EnumType.STRING)
+    private Situacao situacao;
+
+    private LocalDateTime dataAbertura;
+    private LocalDateTime dataEncerramento;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "colaborador_id")
+    private Colaborador colaborador;
 
 }
